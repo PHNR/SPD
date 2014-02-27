@@ -3,7 +3,7 @@ SPD
 
 SPD framework
 
-A StuPiD framework
+A <span style="color:red;">S</span>tuPiD framework
 
 A Smart PHP framework idea from DiscuzX
 
