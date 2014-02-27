@@ -3,7 +3,7 @@ SPD
 
 SPD framework
 
-A stupid framework
+A StuPiD framework
 
 A Smart PHP framework idea from DiscuzX
 
