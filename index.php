@@ -1,0 +1,1 @@
+<?PHP define('IN_SPD', true);
