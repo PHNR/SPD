@@ -1,4 +1,4 @@
-<?PHP
+<?PHP defined('IN_SPD') || die('No direct script access.');
 
 /*************************************************
  *

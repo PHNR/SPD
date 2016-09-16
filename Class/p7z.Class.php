@@ -1,4 +1,4 @@
-<?php
+<?PHP defined('IN_SPD') || die('No direct script access.');
 
 
 
@@ -1365,4 +1365,3 @@ class p7z {
  * This code is released under the GNU LGPL Go read it over here:
  * http://www.gnu.org/copyleft/lesser.html
  */
-?>
