@@ -357,7 +357,7 @@
 
 	function raiseCallback(callbackFunction, thisObject) {
 		if (callbackFunction && "function" === typeof callbackFunction) {
-			callbackFunction.apply(thisObject.element);
+			callbackFunction.apply(thisObject.element[0]);
 		}
 	}
 
