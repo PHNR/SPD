@@ -9,14 +9,13 @@ class HttpRequestAPI {
         empty($urlset['port']) && ($urlset['port'] = '80');
         if($allow_curl && function_exists('curl_init') && function_exists('curl_exec')) {
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL,
-                $urlset['scheme'] . '://' . $urlset['host'] . ($urlset['port'] == '80' ? '' : ':' . $urlset['port']) .
-                $urlset['path'] . $urlset['query']);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_HEADER, 1);
+            curl_setopt($ch, CURLOPT_URL, $urlset['scheme'] . '://' . $urlset['host'] .
+                ($urlset['port'] == '80' ? '' : ':' . $urlset['port']) . $urlset['path'] . $urlset['query']);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HEADER, true);
             if(!empty($post)) {
-                curl_setopt($ch, CURLOPT_POST, 1);
-                is_array($post) && ($post = http_build_query($post));
+                curl_setopt($ch, CURLOPT_POST, true);
+                is_array($post) && ($post = http_build_query($post)) || ($post = urlencode($post));
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
             }
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
@@ -44,10 +43,8 @@ class HttpRequestAPI {
             $fdata  = "{$method} {$urlset['path']}{$urlset['query']} HTTP/1.1\r\nHost: {$urlset['host']}\r\n";
             function_exists('gzdecode') && ($fdata .= "Accept-Encoding: gzip, deflate\r\n");
             $fdata .= "Connection: close\r\n";
-            if(!empty($headers) && is_array($headers)) {
-                foreach($headers as $opt => $value) {
-                    (strpos($opt, 'CURLOPT_') === false) && ($fdata .= "{$opt}: {$value}\r\n");
-                }
+            if(!empty($headers) && is_array($headers)) foreach($headers as $opt => $value) {
+                (false === strpos($opt, 'CURLOPT_')) && ($fdata .= "{$opt}: {$value}\r\n");
             }
             if($post) {
                 $body = is_array($post) ? http_build_query($post) : urlencode($post);
@@ -59,8 +56,7 @@ class HttpRequestAPI {
             $fp = false;
             (function_exists('fsockopen') && ($fp = fsockopen($urlset['host'], $urlset['port'], $errno, $errstr, $timeout))) ||
             (function_exists('pfsockopen') && ($fp = pfsockopen($urlset['host'], $urlset['port'], $errno, $errstr, $timeout))) ||
-            (function_exists('stream_socket_client') &&
-                ($fp = stream_socket_client($urlset['host'] . ':' . $urlset['port'], $errno, $errstr, $timeout)));
+            (function_exists('stream_socket_client') && ($fp = stream_socket_client($urlset['host'] . ':' . $urlset['port'], $errno, $errstr, $timeout)));
             stream_set_blocking($fp, true);
             stream_set_timeout($fp, $timeout);
             if(!$fp) return false;
