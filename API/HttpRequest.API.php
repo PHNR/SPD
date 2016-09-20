@@ -6,11 +6,15 @@ class HttpRequestAPI {
         $urlset = parse_url($url);
         empty($urlset['path']) && ($urlset['path'] = '/');
         empty($urlset['query']) || ($urlset['query'] = "?{$urlset['query']}");
-        empty($urlset['port']) && ($urlset['port'] = '80');
+        empty($urlset['port']) && ($urlset['port'] = $urlset['scheme'] === 'https' ? '443' : '80');
+        ('https' === $urlset['scheme']) && !extension_loaded('openssl') && die('Please Enable OpenSSL For PHP Environment');
         if($allow_curl && function_exists('curl_init') && function_exists('curl_exec')) {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $urlset['scheme'] . '://' . $urlset['host'] .
                 ($urlset['port'] == '80' ? '' : ':' . $urlset['port']) . $urlset['path'] . $urlset['query']);
+            version_compare(PHP_VERSION, '5.6.0', '>=') && curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_NONE);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HEADER, true);
             if(!empty($post)) {
