@@ -458,11 +458,12 @@ class Snoopy
 
     function _striplinks($document)
     {
-        preg_match_all('/<\s*a\s.*?href\s*=\s*			# find <a href=
-						([\"\'])?						# find single or double quote
-						(?(1) (.*?)\\1 | ([^\s\>]+))	# if quote found, match up to next matching
-														# quote, otherwise match up to next space
-						/isx', $document, $links);
+        preg_match_all(
+'/<\s*a\s.*?href\s*=\s*			# find <a href=
+([\"\'])?						# find single or double quote
+(?(1) (.*?)\\1 | ([^\s\>]+))	# if quote found, match up to next matching
+								# quote, otherwise match up to next space
+/isx', $document, $links);
 
 
         // catenate the non-empty matches from the conditional subpattern
