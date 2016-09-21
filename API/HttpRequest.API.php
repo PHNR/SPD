@@ -7,7 +7,7 @@ class HttpRequestAPI {
         empty($urlset['path']) && ($urlset['path'] = '/');
         empty($urlset['query']) || ($urlset['query'] = "?{$urlset['query']}");
         empty($urlset['port']) && ($urlset['port'] = $urlset['scheme'] === 'https' ? '443' : '80');
-        ('https' === $urlset['scheme']) && !extension_loaded('openssl') && die(trigger_error("openssl extension required for HTTPS", E_USER_ERROR));
+        ('https' === $urlset['scheme']) && !extension_loaded('openssl') && die(trigger_error('openssl extension required for HTTPS', E_USER_ERROR));
         if($allow_curl && function_exists('curl_init') && function_exists('curl_exec')) {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $urlset['scheme'] . '://' . $urlset['host'] .
