@@ -35,13 +35,13 @@ class Snoopy
     var $scheme = 'http'; // http or https
     var $host = 'www.php.net'; // host name we are connecting to
     var $port = 80; // port we are connecting to
-    var $proxy_host = ""; // proxy host to use
-    var $proxy_port = ""; // proxy port to use
-    var $proxy_user = ""; // proxy user to use
-    var $proxy_pass = ""; // proxy password to use
+    var $proxy_host = ''; // proxy host to use
+    var $proxy_port = ''; // proxy port to use
+    var $proxy_user = ''; // proxy user to use
+    var $proxy_pass = ''; // proxy password to use
 
     var $agent = 'Snoopy v2.0.0'; // agent we masquerade as
-    var $referer = ""; // referer info to pass
+    var $referer = ''; // referer info to pass
     var $cookies = array(); // array of cookies to pass
     // $cookies['username']='joe';
     var $rawheaders = array(); // array of raw headers to send
@@ -149,7 +149,7 @@ class Snoopy
                         // using proxy, send entire URI
                         $this->_httprequest($URI, $fp, $URI, $this->_httpmethod);
                     } else {
-                        $path = $URI_PARTS['path'] . ($URI_PARTS['query'] ? '?' . $URI_PARTS['query'] : "");
+                        $path = $URI_PARTS['path'] . ($URI_PARTS['query'] ? '?' . $URI_PARTS['query'] : '');
                         // no proxy, send only the path
                         $this->_httprequest($path, $fp, $URI, $this->_httpmethod);
                     }
@@ -206,7 +206,7 @@ class Snoopy
         Output:		$this->results	the text output from the post
     \*======================================================================*/
 
-    function submit($URI, $formvars = "", $formfiles = "")
+    function submit($URI, $formvars = '', $formfiles = '')
     {
         unset($postdata);
 
@@ -239,7 +239,7 @@ class Snoopy
                         // using proxy, send entire URI
                         $this->_httprequest($URI, $fp, $URI, $this->_submit_method, $this->_submit_type, $postdata);
                     } else {
-                        $path = $URI_PARTS['path'] . ($URI_PARTS['query'] ? '?' . $URI_PARTS['query'] : "");
+                        $path = $URI_PARTS['path'] . ($URI_PARTS['query'] ? '?' . $URI_PARTS['query'] : '');
                         // no proxy, send only the path
                         $this->_httprequest($path, $fp, $URI, $this->_submit_method, $this->_submit_type, $postdata);
                     }
@@ -368,7 +368,7 @@ class Snoopy
         Output:		$this->results	an array of the links from the post
     \*======================================================================*/
 
-    function submitlinks($URI, $formvars = "", $formfiles = "")
+    function submitlinks($URI, $formvars = '', $formfiles = '')
     {
         if ($this->submit($URI, $formvars, $formfiles) !== false) {
             if ($this->lastredirectaddr)
@@ -396,7 +396,7 @@ class Snoopy
         Output:		$this->results	the text from the web page
     \*======================================================================*/
 
-    function submittext($URI, $formvars = "", $formfiles = "")
+    function submittext($URI, $formvars = '', $formfiles = '')
     {
         if ($this->submit($URI, $formvars, $formfiles) !== false) {
             if ($this->lastredirectaddr)
@@ -617,7 +617,7 @@ class Snoopy
         Output:
     \*======================================================================*/
 
-    function _httprequest($url, $fp, $URI, $http_method, $content_type = "", $body = "")
+    function _httprequest($url, $fp, $URI, $http_method, $content_type = '', $body = '')
     {
         $cookie_headers = '';
         if ($this->passcookies && $this->_redirectaddr)
